@@ -3,5 +3,5 @@ The system being developed here is a WebRTC client server system that allows req
 
 The system is originally planned as a way for users in retail stores to send vodeos of products in store to uers online. Kind of bridging the physical-digital divide. Work is on going wrt the experience.
 
-The system uses OpenTok for WebRTC and a backend of Python and Java/Spring. The front end is supprted on the Web and Android[via Cordova/Ionic]
+The system uses OpenTok for WebRTC and a backend of Python and Java/Spring. The front end is supprted on the Web and Android[via Cordova/Ionic]. Database used is Mongodb.
 
