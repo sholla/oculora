@@ -1,0 +1,52 @@
+<div>
+
+    <ion-content class="padding">
+		<form  name="profileForm">
+				<div class="row">
+					<!--a  class="col" ng-click="profilepic(50, 50)">
+						<img ng-src="{{profile.imageURL}}" height="50px" width="50px" />
+					</a-->
+					<div class="col">
+						<button class="button button-balanced button-clear" type="file" ngf-select ng-model="picFile" name="file" accept="image/*" ngf-change="fileSelected($files, $event, 0)">
+							<!--img ngf-default-src="img/oculora.png" ngf-src="picFile[0]" class="thumb" height="50px" width="50px" /-->
+							<!--img ng-src="{{profile.imageURL}}" height="50px" width="50px" /-->
+							<img ngf-default-src="{{profile.imageURL}}" ngf-src="picFile[0]" height="50px" width="50px" />
+						</button>
+						<!--div type="file" ngf-select ng-model="picFile" name="file" accept="image/*" ngf-change="fileSelected($files, $event, 0)"-->
+							<!--img ngf-default-src="img/oculora.png" ngf-src="picFile[0]" class="thumb" height="50px" width="50px" /-->
+							<!--img ng-src="{{profile.imageURL}}" height="50px" width="50px" />
+							
+						</div-->
+						<!--img ng-show="picFile[0] != null" ngf-src="picFile[0]" ngf-default-src="{{profile.imageURL}} type="file" ngf-select ng-model="picFile" ngf-accept="'.pdf,.jpg,.png'" class="thumb" height="50px" width="50px" /-->
+					</div>
+					<div class="col col-75 list">
+						<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+							<span class="input-label">Full Name</span>
+							<input placeholder="Full Name" name="fullName" ng-model="profile.fullName" type="text" maxlength="30" required>
+							<span style="color:red" ng-show="profileForm.fullName.$dirty && profileForm.fullName.$invalid">
+								<span ng-show="profileForm.fullName.$error.required">Full Name is required.</span>
+							</span>
+						</label>
+						<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+							<span class="input-label">Nick Name</span>
+							<input placeholder="Nick Name" name="nickName" ng-model="profile.nickName" type="text" pattern="^[^' ]+$" maxlength="30" required>
+							<span style="color:red" ng-show="profileForm.nickName.$dirty && profileForm.nickName.$invalid">
+								<span ng-show="profileForm.nickName.$error.required">Unique Nick Name is required.</span>
+							</span>
+						</label>
+
+
+
+					</div>
+				</div>
+				<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+					<tags-input name="tagsInput" ng-model="profile.tags" min-tags="1" max-tags="10" minLength="1" maxLength="25" required></tags-input>
+					<span style="color:red" ng-show="profileForm.tagsInput.$dirty && profileForm.tagsInput.$invalid">
+						<span ng-show="profileForm.tagsInput.$error.required">Tags are required.</span>
+					</span>
+				</label>
+				<button ng-disabled="profileForm.fullName.$invalid ||
+					profileForm.nickName.$invalid || profileForm.tagsInput.$invalid" class="button button-full button-positive" ng-click="profilemanip(profile)">Change</button>
+			</form>
+    </ion-content>
+</div>

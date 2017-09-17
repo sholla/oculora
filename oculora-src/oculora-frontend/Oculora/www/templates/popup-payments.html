@@ -1,0 +1,57 @@
+
+    <ion-popover-view style="width:100%;">
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Credits</h1>
+            
+
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="row">
+                <label style="margin-right:5px;" >Current Credits:</label>
+                <label >{{currentCredit | number:0}}</label>
+            </div>
+            <!--div class="row">
+                <label style="margin-right:5px;" >Updated Credits:</label>
+                <label >{{updatedCredit | number:0}}</label>
+            </div-->
+			<!--label style="margin-right:5px;" >Platform:{{android-play-store}}</label-->
+			<h4 class="bar-positive">Credit purchase options</h4>
+            <div class="list">
+                <!--label class="item item-input item-select" ng-repeat="sku in skuMap['android-play-store']">
+                    <div class="input-label">
+                        {{skuDetails[$index].title}} @ $ {{skuDetails[$index].price}}
+                    </div>
+                    <select ng-model="buyRequests[$index].numBuys" ng-options="idx for idx in [1,2,3,4,5,6,7,8,9,10]">
+                        <option value="">Choose Quantity</option>
+                    </select>
+                </label-->
+				
+				<!--label class="item item-radio" ng-repeat="sku in skuMap['android-play-store']">
+					<input type="radio" ng-model="buyChoices.sel" value="buyChoices.sel">
+					<div class="item-content">
+						{{skuDetails[$index].title}} @ $ {{skuDetails[$index].price}}
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label-->
+				<ion-radio ng-repeat="sku in skuMap['android-play-store']"
+                   ng-value="$index"
+                   ng-model="buyChoices.sel">
+					{{skuDetails[$index].title}} @ $ {{skuDetails[$index].price}}
+				</ion-radio>
+				
+                
+            </div>
+
+            <!--div class="button-bar">
+                <a ng-click="calculateUpdatedPayments()" class="button button-balanced" style="margin-right:5px;">Calculate</a>
+                <a ng-click="addPayment()" class="button button-assertive" >Buy</a>
+            </div-->
+        </ion-content>
+        <div class="bar bar-footer " >
+            <!--a ng-click="calculateUpdatedPayments()" class="button button-balanced" style="margin-right:5px;">Calculate</a-->
+			<button ng-click="dismissPaymentsDialog()" class="button button-balanced">Cancel</button>
+            <a ng-click="addPayment()" class="button button-assertive" >Buy</a>
+
+
+        </div>
+    </ion-popover-view>

@@ -1,0 +1,33 @@
+<div class="modal">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+
+            <button ng-click="roomimagesdone()" class="button button-balanced">Done</button>
+            <h1 class="title">Room Images</h1>
+            <button ng-click="roomimagescancel()" class="button button-balanced">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <!--button ng-click="profilepic()" class="button button-balanced">Add Image</button-->
+			<button class="button button-balanced" type="file" ngf-select ng-model="picFile" name="file" accept="image/*" ngf-change="fileSelected($files, $event, 2)">
+						<!--img ngf-default-src="img/oculora.png" ngf-src="picFile[0]" class="thumb" height="50px" width="50px" /-->
+						<!--img ng-src="{{profile.imageURL}}" height="50px" width="50px" /-->
+			Add Image		
+			</button>
+            <div class="row" ng-repeat="image in newroom.images" ng-if="$index % 4 === 0">
+                <div class="col col-25" ng-if="$index < newroom.images.length" >
+                    <img  hm-swipedown="roomimageremove($index)" ngf-src="newroom.images[$index].src"  style="border-style:none; border-width:2px; border-color:red;" ng-style="newroom.images[$index].style" ng-click="newroommainimage($index)" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 1 < newroom.images.length">
+                    <img hm-swipedown="roomimageremove($index + 1)" ngf-src="newroom.images[$index + 1].src" style="border-style:none; border-width:2px; border-color:red;" ng-style="newroom.images[$index + 1].style" ng-click="newroommainimage($index + 1)" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 2 < newroom.images.length">
+                    <img hm-swipedown="roomimageremove($index + 2)" ngf-src="newroom.images[$index + 2].src" style="border-style:none; border-width:2px; border-color:red;" ng-style="newroom.images[$index + 2].style" ng-click="newroommainimage($index + 2)" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 3 < newroom.images.length">
+                    <img hm-swipedown="roomimageremove($index + 3)" ngf-src="newroom.images[$index + 3].src" style="border-style:none; border-width:2px; border-color:red;" ng-style="newroom.images[$index + 3].style" ng-click="newroommainimage($index + 3)" width="100%" />
+                </div>
+            </div>
+
+        </ion-content>
+    </ion-modal-view>
+</div>

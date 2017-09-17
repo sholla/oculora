@@ -1,0 +1,14 @@
+
+    <ion-popover-view >
+        <ion-content>
+            <div class="card list">
+                <a class="item item-avatar item-button-right" ng-repeat="item in items[activeRoom].pubs" style="border-radius: 5px;" ng-click="pubselectlist($event, activeRoom, $index)">
+                    <img  ng-src={{item.imageFile}} />
+                    <h2>{{item.nn}}</h2>
+                    <button class="button button-small button-positive" ng-click="roomuser(item, $event)">
+                        <i class="icon ion-information-circled"></i>
+                    </button>
+                </a>
+            </div>
+        </ion-content>
+    </ion-popover-view>

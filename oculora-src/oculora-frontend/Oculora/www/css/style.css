@@ -1,0 +1,227 @@
+/* Empty. Add your own CSS if you like */
+          .slider {
+          height: 100%;
+          }
+          .slider-slide {
+          padding-top: 80px;
+          color: #000;
+          background-color: #fff;
+          text-align: center;
+
+          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          font-weight: 300;
+          }
+
+.nameText {
+border:dashed 1px orange; 
+margin-top: 5px; 
+margin-bottom: 5px; 
+width:100%; 
+margin-left:2px; 
+margin-right:2px;
+   }
+.descriptionText {
+border:dashed 1px orange; 
+overflow-y: 
+auto; width:100%; 
+margin-left:4px; 
+margin-right:4px;
+   }
+.tagsText {
+width:100%; 
+overflow-y: auto; 
+margin-top:2px; 
+border:dashed 1px orange; 
+margin-top:4px; 
+margin-left:2px; 
+margin-right:5px;
+   }
+.flip-button {
+  -webkit-perspective: 1000;
+  perspective: 1000; }
+.flip-button .back, .flip-button .front {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+  position: absolute;
+  width:90%;
+    margin-left:5px;
+    margin-right:5px;
+   }
+.flip-button .back {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);}
+.flip-button .front {
+  -webkit-transform: rotateY(0deg);
+transform: rotateY(0deg); 
+-webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+z-index: 2;
+   }
+.flip-button.hover .back {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg); }
+.flip-button.hover .front {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg); z-index: -2;
+}
+.cardView {
+    border-radius: 25px;
+    border-style: outset;
+    border-color: orange;
+    border-width: 5px;
+}
+
+.container {
+  width:100%;
+  height: 250px;
+
+  position: relative;
+  perspective: 800px;
+
+}
+
+.pubcontainer {
+    width: 100%;
+    height: 100%;
+
+  position: relative;
+  perspective: 800px;
+	z-index:200;
+}
+
+.itemright {
+    float: right;
+    width: 50%;
+}
+
+.itemleft {
+    float: left;
+    width: 50%;
+}
+
+#facePublisher, #screenPublisher {
+    position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+    /*height: 500px;*/
+    display: block;
+    /*position: absolute;
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    border-radius: 5px;*/
+    z-index: 99;
+    transition: width 200ms, height 200ms ease;
+}
+
+#facePublisher {
+    /*top: 50px;*/
+	
+	
+    /*right: 10px;*/
+}
+
+/*#screenPublisher {
+    top: 30px;
+    left: 30px;
+}*/
+
+#facePublisher ot-publisher {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/*#facePublisher:active, #screenPublisher:active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+}*/
+
+#session {
+    /*display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;*/
+}
+
+ot-layout ot-subscriber {
+    background-color: #262422;
+    display: inline-block;
+	width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+ot-layout {
+    display: block;
+    width: 100%;
+    height: 100%;
+	position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+	z-index: 99;
+    transition: width 200ms, height 200ms ease;
+}
+
+.range {
+  -ms-transform: rotate(-270deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-270deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-270deg);
+}
+.range i.icon {
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+
+
+
+@media screen and (max-width: 650px) {  
+  /*#facePublisher, #screenPublisher {
+      width: 95%;
+      height: 500px;
+  }*/
+  
+  /*#shareInfo {
+      width: 250px;
+      left: 50%;
+      margin-left: -135px;
+  }
+  
+  #statusMessages {
+      width: 340px;
+      left: calc(50% - 180px);
+  }*/
+}
+
+/*@media only screen and (orientation: portrait) {
+    #facePublisher {
+        width: 100px;
+        height: 600px;
+    }
+}*/
+
+/*@media only screen and (orientation: portrait) and (max-width: 650px) {
+    #facePublisher, #screenPublisher {
+        width: 50px;
+        height: 500px;
+    }
+}*/
+

@@ -1,0 +1,27 @@
+
+    <ion-popover-view >
+        <ion-header-bar class="bar bar-header bar-positive">
+            <a ng-click="userlistfinish(true)" class="button button-assertive" >Cancel</a>
+            <h1 class="title">Users</h1>
+            <a ng-click="userlistfinish(false)" class="button button-assertive" >Select</a>
+        </ion-header-bar>
+        <ion-content padding="true">
+            <label>Sort By:
+                <select ng-model="userSortOrder" ng-change="sortAction(getUserList)" ng-options="st.name for st in userSortOrders"></select>
+                <input ng-enter="sortAction(getUserList)" style="border:dashed 1px orange; margin-bottom: 5px;" type="text" placeholder="Enter value" ng-model="userSortData">
+            </label>
+            <div class="list">
+                <a class="item item-thumbnail-left item-button-right" href="#" ng-repeat="user in users">
+                    <img ng-src="{{user.imageURL}}">
+                    <h2>{{user.name}}</h2>
+                    <p>{{user.nn}}</p>
+                    <input type="checkbox" ng-model="user.sel" ng-click="newroom.publishers.candidates.push({{user.mid}})"/>
+                </a>
+            </div>
+            <ion-infinite-scroll
+                    on-infinite="doRefresh(1, users, getUserList, userpage)"
+                    distance="1%">
+            </ion-infinite-scroll>
+        </ion-content>
+
+    </ion-popover-view>

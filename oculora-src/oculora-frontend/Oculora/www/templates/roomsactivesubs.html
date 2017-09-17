@@ -1,0 +1,85 @@
+<div class="modal">
+    <ion-modal-view>
+        <ion-content>
+            <!--ion-list>
+
+                <div class="card item" ng-repeat="item in subscribers">
+                    <div class="row" style="background-color: orange; border-style: outset; border-color: red; border-width: 5px;">
+                        <img  ng-src={{item.subInfo.imageFile}} height="25px" width="25px" />
+                        {{item.subInfo.nn}}
+                    </div>
+
+                    <div class="row">
+                        <a ng-click="optionClicked(false, $index)" class="button button-clear icon ion-mic-c button-assertive" ></a>
+                        <a ng-click="optionClicked(true, $index)" class="button button-clear icon ion-chatboxes button-assertive" ></a>
+
+                    </div>
+                </div>
+
+            </ion-list-->
+			<div class="row">
+				<label class="item item-radio">
+					<input type="radio" name="group" ng-model="subslist.viewmode" value="0">
+					<div class="item-content">
+						Browsing
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+				<label class="item item-radio">
+					<input type="radio" name="group" ng-model="subslist.viewmode" value="1">
+					<div class="item-content">
+						Full
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+				<label class="item item-radio">
+					<input type="radio" name="group" ng-model="subslist.viewmode" value="2">
+					<div class="item-content">
+						Both
+					</div>
+					<i class="radio-icon ion-checkmark"></i>
+				</label>
+				<!--div class="item item-checkbox">
+					<label class="checkbox">
+						<input type="checkbox" ng-model="subslist.browse">
+					</label>
+					Browsing
+				</div-->
+				<!--div class="item item-checkbox">
+					<label class="checkbox">
+						<input type="checkbox" ng-model="subslist.full">
+					</label>
+					Viewing
+				</div-->
+				<!--input type="checkbox" ng-model="subslist.browse" >Browsing</input-->
+				<!--input type="checkbox" ng-model="subslist.full" >Viewing</input-->
+			</div>
+			<!--label class="item item-input" style="margin-left: auto;margin-right: auto; width: 90%;">
+				<i class="icon ion-search placeholder-icon"></i>
+				<input type="search" placeholder="Search" ng-enter="sortAction(getSubList)" style="border:dashed 1px orange; ;" ng-model="sortData">
+			</label-->
+			
+			<div class="card list" >
+
+				<a class="item item-avatar item-button-right" ng-repeat="item in subscribers | filter:subsviewmodefilter" ng-enabled="subsviewenable(item)" ng-click="runSub($index)" >
+					<img ng-src={{item.subInfo.imageFile}}>
+					
+					<div class="row">
+						<i ng-class="item.subInfo.fv !== undefined ? ion-arrow-shrink : ion-arrow-expand"></i>
+						<h2>{{item.subInfo.nn}}</h2>
+					</div>
+					
+					<button class="button button-positive" ng-click="pubUserInfo(item.subInfo, $event)">
+						<i class="icon ion-information"></i>
+					</button>
+					<!--button class="button button-positive" ng-click="optionClicked(true, $index)">
+						<i class="icon ion-chatboxes"></i>
+					</button-->
+				</a>
+
+			</div>
+
+        </ion-content>
+		
+    </ion-modal-view>
+</div>

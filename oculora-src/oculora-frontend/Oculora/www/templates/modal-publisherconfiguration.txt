@@ -1,0 +1,26 @@
+<div>
+
+    
+    <h4>Are you sure you want to publish to this room?</h4>
+	<br></br>
+	<button class="button button-balanced" >{{Configuration}}</button>
+	<h4>Publishing Configuration</h4>
+	<div class="list" style="width:100%;">
+
+	  <label class="item item-input item-select" style="width:100%;">
+		<div class="input-label">
+		  Video Input
+		</div>
+		<select ng-model="inputVideoDeviceSel" ng-change="inputDeviceSelect(1)" ng-options="st2.name for st2 in inputDevicesVideo" style="margin-top:2px;margin-right:5px; ">Video Input</select>
+	  </label>
+
+	</div>
+	<div class="list">
+		<label>
+			<select class="item item-input item-select" ng-model="inputVideoDeviceSel" ng-change="inputDeviceSelect(1)" ng-options="st2.name for st2 in inputDevicesVideo" style="margin-top:2px;margin-right:5px; ">Video Input</select>
+		<label>
+        <select class="item item-input item-select" ng-model="inputAudioDeviceSel" ng-change="inputDeviceSelect(0)" ng-options="st2.name for st2 in inputDevicesAudio" style="margin-top:2px;margin-right:5px; "></select>                    
+    </div>
+	
+    
+</div>

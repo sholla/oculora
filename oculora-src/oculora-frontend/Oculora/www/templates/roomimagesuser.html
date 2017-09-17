@@ -1,0 +1,27 @@
+<div class="modal">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Room Images</h1>
+            <button ng-click="roomimagesuserdone()" class="button button-balanced">Done</button>
+
+        </ion-header-bar>
+        <ion-content class="padding">
+
+            <div class="row" ng-repeat="image in userimages" ng-if="$index % 4 === 0">
+                <div class="col col-25" ng-if="$index < userimages.length" >
+                    <img ng-src="{{userimages[$index]}}"  width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 1 < userimages.length">
+                    <img ng-src="{{userimages[$index + 1]}}" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 2 < userimages.length">
+                    <img ng-src="{{userimages[$index + 2]}}" width="100%" />
+                </div>
+                <div class="col col-25" ng-if="$index + 3 < userimages.length">
+                    <img ng-src="{{userimages[$index + 3]}}" width="100%" />
+                </div>
+            </div>
+
+        </ion-content>
+    </ion-modal-view>
+</div>

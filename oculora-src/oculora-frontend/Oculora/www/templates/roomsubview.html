@@ -1,0 +1,181 @@
+<div class="modal">
+    <ion-modal-view  ng-controller="SubViewCtrl" style="width: 100%; height: 100%;">
+        <!--ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Room Subscriber View</h1>
+
+        </ion-header-bar-->
+		<div class="bar bar-header bar-clear" style="z-index:200; opacity: 0.5;">
+                    <div class="button-bar">
+                        <!--a ng-show="publishers.length > 1" ng-click="roomsactivepubs.show($event)" ng-class="pubsclassresult" ></a-->
+						<a class="button button-clear button-small button-balanced"><img  ng-src={{activeItem.imageFile}} height="25px" width="25px" />{{activeItem.rn}}</a>
+                        <a ng-click="roomsubscribeend()" class="button button-clear button-large icon ion-stop button-assertive" ></a>
+                        <a ng-click="showPaymentsDialog($event)" ng-class="paymentsCurrentState"></a>
+                    </div>
+                </div>
+        <ion-view>
+			<ot-whiteboard ng-if="showWhiteboard" style="z-index:215;"
+                    otsindex="currentSidebandIndex"
+                    width="1280"
+                    height="960"
+                    color="black"
+                    lineWidth="5"
+                    class="OT_big">
+                </ot-whiteboard>
+            <div class="pubcontainer" >
+                
+                <!--div class="button-bar" style="position: absolute; top: 5px; left: 1px; z-index=25; opacity: 0.5;">
+                    <a ng-click="roompublishend()" class="button button-clear icon ion-person-stalker button-assertive" ></a>
+                    <a ng-click="roompublishend()" class="button button-clear icon ion-stop button-assertive" ></a>
+                    <a ng-click="roomsactivesubs.show($event)" class="button button-clear icon ion-cash button-balanced"></a>
+                </div-->
+                <!--video width="100%" height="100%" >
+                    <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
+
+                    Your browser does not support HTML5 video.
+                </video-->
+
+                <!--div hm-swipedown="chatWindow = !chatWindow" class="button-bar " style="position: absolute; top: 35px; left: 1px; z-index=25; opacity: 0.5;">
+
+                    <div ng-repeat="user in activeusers" class="col text-center">
+                        <a ng-click="roompublishend()" class="button button-clear button-balanced" ><img  ng-src={{user.imageURL}} height="50px" width="50px" />{{$index}}</a>
+                    </div>
+
+
+
+                </div-->
+                <ion-scroll  delegate-handle="subChat" zooming="true" direction="xy" class="col col-50" style="display: inline; opacity: 0.5; position: absolute;bottom: 70px; top: 70px;">
+                    <!--ion-refresher
+                            pulling-text="Pull to refresh..."
+                            on-refresh="doRefresh()">
+                    </ion-refresher-->
+                    <div  ng-show="publishers[activePub].sideband.chatWindow.active" class="list" style="border-style: inset; border-width:2px; border-color: orange;">
+                        <!--div class="item" ng-repeat="msg in chat.msgs" >
+                            <button class="button button-balanced" style=" word-wrap: break-word;" ng-hide="!msg.in1" >{{msg.msg}}</button>
+                            <img  ng-hide="msg.in1" ng-src={{msg.imageURL}} height="25px" width="25px" style="margin-bottom=1px;"/>
+                        </div-->
+						<div class="item" ng-repeat="msg in publishers[activePub].sideband.chatWindow.msgs" >
+							<div ng-class="msg.chatWindowClass" >
+								<button class="button button-balanced" style=" word-wrap: break-word;" ng-hide="msg.imageURL" >{{msg.msg}}</button>
+								<img ng-show="msg.imageURL" ng-src={{msg.image}} height="25px" width="25px" style="margin-bottom=1px;"/>
+							</div>
+						</div>
+                        <div class="item button-bar">
+                            <a ng-click="chatUseImage()" class="button button-clear icon ion-image button-balanced"></a>
+                            <a ng-click="roompubview.hide()" class="button button-clear icon ion-happy button-balanced"></a>
+                        </div>
+                        <input class="item" style="width:100%;" ng-model="publishers[activePub].sideband.chatWindow.emsg" ng-enter="chataction()" />
+                    </div>
+                </ion-scroll>
+            </div>
+
+
+
+            <!--div id="msgPublisher" ng-if="publishing">
+                <ot-publisher id="msgPublisher" props="facePublisherProps" OTSession="OTSessionMessaging">
+
+                </ot-publisher>
+
+            </div-->
+			<div id='session' ng-class="{'session-connected': connected}">
+				<ot-layout props="{animate:true,bigFixedRatio:true}" otstype="1">
+					<!--ot-subscriber ng-repeat="stream in streams | filter:notMine" 
+						stream="stream" 
+						props="{style: {nameDisplayMode: 'off'}}" 
+						ng-class="{OT_big: (stream.othLarge == undefined && stream.name == 'screen') || stream.othLarge}" 
+					   
+					</ot-subscriber-->
+					<div ng-if="subscribing" style="width: 100%; height: 100%;" >
+						<ot-subscriber ng-if="pub.active" ng-repeat="pub in publishers"
+										stream="pub.stream"
+										props="facePublisherProps"
+										otstype="1"
+										ng-class="{OT_big: (stream.othLarge == undefined && stream.name == 'screen') || stream.othLarge}"
+										>
+
+								</ot-subscriber>
+						<!--div ng-repeat="pub in publishers" style="width: 100%; height: 100%;">
+							<div ng-if="pub.active" style="width: 100%; height: 100%;">
+								<ot-subscriber ng-if="pub.active"
+										stream="pub.stream"
+										props="facePublisherProps"
+										otstype="1"
+										ng-class="{OT_big: (stream.othLarge == undefined && stream.name == 'screen') || stream.othLarge}"
+										>
+
+								</ot-subscriber>
+							</div>
+						</div-->
+					</div>
+					
+				</ot-layout>
+            
+				<div ng-repeat="pub in publishers" ng-if="subscribing">
+						<div ng-if="pub.sideband.subscribing">
+							<ot-publisher props="interactPublisherProps" otstype="2" otsindex="pub.sideband.otsindex">
+
+							</ot-publisher>
+							<div id='sessionInteract' >
+								<ot-subscriber ng-repeat="stream in pub.sideband.streams"
+											   stream="stream"
+											   props="interactPublisherProps"
+											   otstype="2" otsindex="pub.sideband.otsindex"
+											   ng-class="{OT_big: (stream.othLarge == undefined && stream.name == 'screen') || stream.othLarge}"
+										>
+
+								</ot-subscriber>
+							</div>
+						</div>
+				</div>
+			</div>
+        </ion-view>
+		<!--div class="bar bar-footer  bar-clear row text-center" style="position: absolute; bottom:0px; z-index=200; opacity: 0.5;">
+			<a ng-click="sidebandOption({v: 1})" class="button button-clear icon ion-mic-c button-assertive" ></a>
+            <img  ng-src={{activeItem.imageFile}} height="25px" width="25px" />
+			<p class="title" >{{activeItem.rn}}</p>
+            <a ng-show="publishers[activePub].sideband.subscribing" ng-click="sidebandOption({c: 1})" class="button button-clear icon ion-chatboxes button-assertive" ></a>
+		</div-->
+		<div class="bar bar-clear" style="width:100%; z-index=200; opacity: 0.7; position: absolute;bottom: 100px;" ng-show="notifyInfo">
+			<a class="button button-energized button-small button-clear" ng-click="roomuser(userInfo, $event)">
+				<img ng-src="{{userInfo.imageFile}}" height="25px" width="25px"></img>
+				{{userInfo.nn}}: {{userState}}
+			</a>
+			<a ng-click="ackUserState()" class="button button-clear button-small icon ion-checkmark-circled button-energized" style="float:right;"></a>
+			<!--a ng-click="subItemOption(newPub.OTSessionSideband.idx)" class="button button-clear button-small icon ion-close-circled button-energized" style="float:right;"></a-->
+		</div>
+        <div class="bar bar-clear" style="width:100%; z-index=200; opacity: 0.7; position: absolute;bottom: 50px;" ng-show="notifyAction">
+			<a class="button button-energized button-small button-clear" ng-click="roomuser(newPub.subInfo, $event)">
+				<img ng-src="{{newPub.subInfo.imageFile}}" height="25px" width="25px"></img>
+				{{newPub.subInfo.nn}}: Connect?
+			</a>
+			<a ng-click="subItemOption(newPub.OTSessionSideband.idx, true)" class="button button-clear button-small icon ion-checkmark-circled button-energized" style="float:right;"></a>
+			<a ng-click="subItemOption(newPub.OTSessionSideband.idx, false)" class="button button-clear button-small icon ion-close-circled button-energized" style="float:right;"></a>
+		</div>
+		<div class="bar bar-footer bar-clear" style="width:100%; z-index=200; opacity: 0.5; padding-right:10px;">
+			<div style="width:100%;" ng-show="!publishers[activePub].sideband.subscribing" >
+				
+				<!--div ng-show="subscribers[activeUserIdx].subscribing">
+					<a ng-click="chatUseImage()" class="button button-clear button-balanced"><img  ng-src={{publishItem.imageURL}} height="25px" width="25px" />{{publishItem.rn}}</a>
+					
+				</div-->
+				<a ng-click="roomsactivepubs.show($event)" ng-class="pubsclassresult" style="float:right;">{{publishers.length}}</a>	
+				<a ng-click="sidebandOption({v: 1})" class="button button-clear button-small icon ion-flash button-assertive" ></a>	
+				<!--a ng-click="audioLevelEdit=!audioLevelEdit" class="button button-clear button-small icon ion-volume-medium button-assertive" >{{pubAudioLevel}}</a-->
+				<!--a ng-click="roompublishend(true)" class="button button-clear button-small icon ion-camera button-assertive" ></a-->	
+				<!--a ng-click="roompublishend(true)" class="button button-clear button-small icon ion-headphone button-assertive" ></a-->
+				<!--a ng-show="subscribers[activeUserIdx].subscribing" ng-click="moreOptions=!moreOptions" class="button button-clear button-small icon ion-more button-assertive" style="float:right;"></a-->
+			</div>
+			<div style="width:100%;">
+				<div style="width:100%;" ng-show="publishers[activePub].sideband.subscribing">
+					<a class="button button-clear button-small button-balanced"><img  ng-src={{publishers[activePub].pubInfo.imageFile}} height="25px" width="25px" />{{publishers[activePub].pubInfo.nn}}</a>
+					<a ng-click="sidebandOption({v: 1})" class="button button-clear button-small icon ion-mic-c button-assertive" style="left:10px;"></a>
+					<a ng-click="sidebandOption({c: 1})" class="button button-clear button-small icon ion-chatboxes button-assertive" style="left:10px;"></a>	
+					<a ng-click="toggleWhiteboard()" class="button button-clear button-small icon ion-paintbrush button-assertive" style="float:right;"></a>
+					<a ng-click="closeSideband()" class="button button-clear button-small icon ion-close-circled button-assertive" style="float:right;"></a>		
+				</div>
+				<!--div style="width:100%;" ng-show="!subscribers[activeUserIdx].subscribing">
+					<a ng-click="moreOptions=!moreOptions" class="button button-clear icon ion-flash button-assertive" style="float:right;"></a>		
+				</div-->
+			</div>
+		</div>
+    </ion-modal-view>
+</div>

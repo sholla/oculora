@@ -1,0 +1,56 @@
+<div class="modal">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Rooms</h1>
+            <button ng-click="newroomcancel()" class="button button-balanced">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+			<form  name="roomForm">
+				<div class="row">
+					<a  class="col" ng-click="roomimagesshow()">
+						<img ngf-default-src="{{newroom.imageURL}}" ngf-src="newroom.images[newroom.mainImage].src" height="50px" width="50px" />
+					</a>
+					<div class="col col-75 list">
+						<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+							<span class="input-label">Room Name</span>
+							<input type="text" placeholder="Room Name" name="roomName" ng-model="newroom.name" maxlength="30" required>
+							<span style="color:red" ng-show="roomForm.roomName.$dirty && roomForm.roomName.$invalid">
+								<span ng-show="roomForm.roomName.$error.required">Unique room name is required.</span>
+							</span>
+						</label>
+						<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+							<span class="input-label">Description</span>
+							<textarea rows="4" placeholder="Description" ng-model="newroom.description"></textarea>
+						</label>
+
+
+
+					</div>
+				</div>
+				<label class="item item-input item-floating-label" style="margin-bottom: 5px;">
+					<tags-input name="tagsInput" min-tags="1" max-tags="10" minLength="1" maxLength="25" required ng-model="newroom.tags">
+						<span style="color:red" ng-show="roomForm.tagsInput.$dirty && roomForm.tagsInput.$invalid">
+							<span ng-show="roomForm.tagsInput.$error.required">Tags are required.</span>
+						</span>
+					</tags-input>
+				</label>
+
+
+				<button style="margin-left:auto; margin-right:auto;" class="button button-small button-positive" ng-click="roomcandidates.show()">Publishers</button>
+
+
+				<label style="margin-left:auto; margin-right:auto; float:right;" class="toggle" >
+
+					<input type="checkbox" ng-model="newroom.enableRoom">
+					<div class="track">
+						<div class="handle"></div>
+					</div>
+					Enable room?
+				</label>
+
+				<button ng-disabled="roomForm.roomName.$invalid ||
+					roomForm.tagsInput.$invalid" class="button button-full button-positive" ng-click="newroommanip()">Create</button>
+			</form>
+        </ion-content>
+    </ion-modal-view>
+</div>

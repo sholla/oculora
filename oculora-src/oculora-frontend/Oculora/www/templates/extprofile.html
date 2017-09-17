@@ -1,0 +1,26 @@
+
+    <ion-popover-view >
+        <ion-header-bar class="bar bar-header bar-positive">
+
+            <h1 class="title">{{extprofile.nickName}}</h1>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="row">
+                <!--a  class="col" >
+                    <img ng-src="{{extprofile.imageURL}}" height="50px" width="50px" />
+                </a-->
+                <img ng-src="{{extprofile.imageURL}}" height="50px" width="50px" />
+                <h2 >{{extprofile.fullName}}</h2>
+                <!--label class="item item-input" style="margin-bottom: 5px;">
+
+                    <input ng-model="extprofile.fullName" type="text" disabled>
+                </label-->
+            </div>
+
+
+            <label  >
+                <textarea style="border:dashed 1px orange; overflow-y: auto;" disabled rows="4" placeholder="Tags" ng-model="extprofile.tags"></textarea>
+            </label>
+
+        </ion-content>
+    </ion-popover-view>

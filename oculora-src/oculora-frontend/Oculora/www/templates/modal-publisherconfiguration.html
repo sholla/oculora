@@ -1,0 +1,55 @@
+<div class="modal">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Publishing Configuration</h1>
+            <!--button ng-click="newroomcancel()" class="button button-balanced">Cancel</button-->
+        </ion-header-bar>
+        <ion-content class="padding">
+			<div id="othwconf"></div>
+			
+			<div class="list" style="width:100%; ">
+
+				<label class="item item-input item-select" style="width:100%;">
+					<div class="input-label">
+						Video Input
+					</div>
+					<select ng-model="media.inputVideoDeviceSel"  ng-options="st2.name for st2 in inputDevicesVideo" >Video Input</select>
+				</label>
+				<label class="item item-input item-select" style="width:100%;">
+					<div class="input-label">
+						Audio Input
+					</div>
+					<select ng-model="media.inputAudioDeviceSel"  ng-options="st2.name for st2 in inputDevicesAudio" ></select>
+				</label>
+				<label class="item item-input item-select" style="width:100%;">
+					<div class="input-label">
+						Resolution
+					</div>
+					<select ng-model="media.resolution"  ng-options="st2.name for st2 in resolutions" ></select>
+				</label>
+				<label class="item item-input item-select" style="width:100%;">
+					<div class="input-label">
+						Frame rate
+					</div>
+					<select ng-model="media.frameRate"  ng-options="st2.name for st2 in frameRates" ></select>
+				</label>
+				<label class="item item-input item-toggle" style="width:100%;">
+					<div class="input-label">
+						Mirror video?
+					</div>
+					<label class="toggle">
+						<input type="checkbox" ng-model="media.mirror" >
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</label>
+				</label>
+				
+				
+				
+			</div>
+	
+	
+		</ion-content>
+    </ion-modal-view>
+</div>

@@ -1,0 +1,36 @@
+
+    <ion-popover-view >
+        <ion-content>
+            <!--ion-list>
+
+                <div class="card item" ng-repeat="item in publishers">
+                    <a lass="button button-clear icon ion-mic-c button-assertive" ng-click="pubselect($event, $index)" style="background-color: orange; border-style: outset; border-color: red; border-width: 5px;">
+                        <img  ng-src={{item.sideband.subInfo.imageFile}} height="25px" width="25px" />
+                        {{item.sideband.subInfo.nn}}
+                    </a>
+
+                    <div class="row">
+                        <a ng-click="subItemOption(0, $index)" class="button button-clear icon ion-mic-c button-assertive" ></a>
+                        <a ng-click="subItemOption(1, $index)" class="button button-clear icon ion-chatboxes button-assertive" ></a>
+
+                    </div>
+                </div>
+
+            </ion-list-->
+			<div class="list">
+
+				<a class="item item-avatar item-button-right" ng-repeat="item in publishers" ng-click="pubselect($index)">
+					<img ng-src={{item.pubInfo.imageFile}}>
+					<h1>{{item.pubInfo.nn}}</h1>
+					<button class="button button-positive" ng-click="pubUserInfo(item.pubInfo, $event)">
+						<i class="icon ion-information"></i>
+					</button>
+					<!--button class="button button-positive" ng-click="subItemOption($index, false, true)">
+						<i class="icon ion-chatboxes"></i>
+					</button-->
+				</a>
+
+			</div>
+
+        </ion-content>
+    </ion-popover-view>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+       
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+      <link rel="stylesheet" href="lib/ionic/js/ng-tags-input/ng-tags-input.min.css">
+	  <link rel="stylesheet" type="text/css" href="https://static.opentok.com/hardware-setup/v1/css/opentok-hardware-setup.css">
+	  <link rel="stylesheet" href="js/webrtc/opentok-whiteboard.css">
+      <!--link rel="stylesheet" type="text/css" href="lib/ionic/js/angular-dropdowns/master/dist/angular-dropdowns.css"-->
+      <style>      </style>
+
+          <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+          <link href="css/ionic.app.css" rel="stylesheet">
+          -->
+<!--link rel="stylesheet" href="https://meet.tokbox.com/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8"-->
+    <!-- ionic/angularjs js -->
+	<script src="https://meet.tokbox.com/js/lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/angular-resource/angular-resource.js"></script>
+    <script src="lib/ionic/js/ngCordova/dist/ng-cordova.js"></script>
+    <script type="text/javascript" src="lib/ionic/js/ng-tags-input/ng-tags-input.min.js"></script>
+    <!--script type="text/javascript" src="lib/ionic/js/hammerjs/hammer.min.js"></script-->
+    <!--script type="text/javascript" src="lib/ionic/js/hammerjs/angular.hammer.min.js"></script-->
+    <!--script type='text/javascript' src="lib/ionic/js/angular-dropdowns/angular-dropdowns-min.js"></script-->
+	<script type="text/javascript" src="lib/ionic/js/ng-file-upload/ng-file-upload.js"></script> 
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+      <script type="text/javascript" src="http://static.opentok.com/v2/js/opentok.js"></script>
+	  <script src="https://static.opentok.com/hardware-setup/v1/js/opentok-hardware-setup.js"></script>
+      <!--script type="text/javascript" src="https://tbdev.tokbox.com/v2/js/opentok.js"></script-->
+
+      <!--script type="text/javascript" src="opentok.js"></script-->
+	  <script src="https://meet.tokbox.com/js/lib/opentok-layout-js/opentok-layout.js"></script>
+	  <script type="text/javascript">
+        // opentok-layout sets window.$ to undefined because of a bug in jQuery (I think)
+        window.$ = jQuery.noConflict();
+      </script>
+	  <script type="text/javascript" src="PushNotification.js"></script>
+      <script type="text/javascript" src="js/webrtc/opentok-angular.js"></script>
+	  <!-- OpenTok Whiteboard -->
+        <script src="js/webrtc/opentok-whiteboard.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+    <!-- your app's js -->
+      <script src="js/constants.js"></script>
+    <script src="js/app.js"></script>
+      <script src="js/controllers/main.js"></script>
+      <script src="js/controllers/home.js"></script>
+      <script src="js/controllers/usersrooms.js"></script>
+      <script src="js/controllers/page3.js"></script>
+      <script src="js/controllers/publishview.js"></script>
+      <script src="js/controllers/pubcandidates.js"></script>
+      <script src="js/controllers/subscribemainview.js"></script>
+      <script src="js/controllers/subscribeview.js"></script>
+
+      <script src="js/controllers/profile.js"></script>
+      <script src="js/oculora.js"></script>
+  </head>
+  <body ng-app="Oculora" ng-controller="MainCtrl" class="platform-android platform-cordova platform-webview">
+        <ion-view view-title="Oculora">
+
+            <ion-slide-box on-slide-changed="slideChanged($index)" does-continue="true" auto-play="false" show-pager="false">
+				<ion-slide ng-controller="HomeCtrl" >
+					<ion-header-bar class="bar-stable">
+						<button ng-click="showScreens()" class="button button-clear icon ion-navicon-round button-balanced"></button>
+						<h1 class="title">{{pageTitle}}</h1>
+						<a ng-click="showPaymentsDialog($event)" ng-class="paymentsCurrentState"></a>
+					</ion-header-bar>
+					<ion-content ng-controller="PubCandidatesCtrl">
+						<ion-refresher ng-if="initComplete"
+							pulling-text="Pull to refresh..."
+							on-refresh="doRefresh(0, items, getPubList)">
+						</ion-refresher>
+
+						<div class="row" style="width: 100%;">
+							<select class="item item-input item-select" ng-model="sortOrder" ng-change="sortAction(getPubList)" ng-options="st2.name for st2 in sortOrders" style="margin-top:2px;margin-right:5px; "></select>
+								<select class="item item-input item-select" ng-model="sortFilter" ng-change="sortAction(getPubList)" ng-options="st1.name for st1 in sortFilters" style="margin-top:1px;margin-right:5px; "></select>
+								<select class="item item-input item-select itemright" ng-model="sortOn" ng-change="sortAction(getPubList)" ng-options="st1.name for st1 in sortOns" style="margin-top:1px;margin-right:5px; "></select>
+						</div>
+						<label class="item item-input" style="margin-left: auto;margin-right: auto; width: 100%;">
+							<i class="icon ion-search placeholder-icon"></i>
+							<input type="search" placeholder="Search" ng-enter="sortAction(getPubList)" style="border:dashed 1px orange; ;" ng-model="sortData">
+						</label>
+						<div class="container" ng-repeat="item in items" >
+							<div class="flip-button" onclick="this.classList.toggle('hover');">
+								<div class="card cardView front" >
+									<div class="item item-divider  buttons bar bar-header bar-assertive" style="border-radius: 25px; ">
+										<a class="button button-energized button-small button-clear" ng-click="roomuser(item, $event)">{{item.nn}}</a>
+										<a class="button button-energized button-clear button-small icon ion-videocamera" ng-click="roompublish(item, $event)"></a>
+									</div>
+									<div class="row">
+										<div  class="col">
+											<img  ng-click="cardroomimagesshow(item, $event)" ng-src={{item.imageURL}} height="50px" width="50px" />
+											<a ng-class="item.followr" style="border-radius: 25px;" ng-click="roomfollow(item, $event)"></a>
+										</div>
+										<div class="col col-75 list">
+											<label >
+												<input disabled class="nameText" type="text" ng-model="item.rn" >
+											</label>
+											<textarea class="descriptionText" disabled rows="4" ng-model="item.descr"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="card cardView back" >
+									<div class="item item-divider  buttons bar bar-header bar-assertive" style="border-radius: 25px; ">
+										<a class="button button-energized button-small button-clear" ng-click="roomuser(item, $event)">{{item.nn}}</a>
+										<a class="button button-energized button-clear button-small icon ion-videocamera" ng-click="roompublish(item, $event)"></a>
+									</div>
+									<textarea class="tagsText" disabled rows="4" ng-model="item.tags"></textarea>
+								</div>
+							</div>
+						</div>
+						<ion-infinite-scroll ng-if="doMoreRefresh(items)"
+							on-infinite="doRefresh(1, items, getPubList)"
+							distance="1%">
+						</ion-infinite-scroll>
+						  
+					</ion-content>
+				</ion-slide>
+				<ion-slide ng-controller="UsersRoomsCtrl">
+					<ion-header-bar class="bar-stable">
+						<button ng-click="showScreens()" class="button button-clear icon ion-navicon-round button-balanced"></button>
+						<h1 class="title">{{pageTitle}}</h1>
+					  
+						<button ng-click="newroomstart()" class="button">Requests</button>
+					  <!--a ng-click="showPaymentsDialog($event)" ng-class="paymentsCurrentState"></a-->
+					</ion-header-bar>
+					<ion-content class="padding">
+
+                      <!--label class="item item-input item-select" >
+                          <div class="input-label">
+                              Sort By:
+                          </div>
+                          <select ng-model="sortOrder" >
+                              <option value="ct" selected >Date</option>
+                              <option value="rn" >Room Name</option>
+                          </select>
+                      </label-->
+						<ion-refresher ng-if="initComplete"
+                            pulling-text="Pull to refresh..."
+                            on-refresh="doRefresh(0, items, getRooms)">
+						</ion-refresher>
+						<div class="row">
+							<div style="margin-left:1px; margin-right:2px;">
+								<select class="item item-input item-select" ng-model="sortOn1" ng-change="sortAction(getRooms)" ng-options="st1.name for st1 in sortOns" style="margin-top:1px; "></select>
+								<select class="item item-input item-select" ng-model="sortOrder1" ng-change="sortAction(getRooms)" ng-options="st2.name for st2 in sortOrders" style="width: 100%; margin-top:2px; "></select>
+							</div>
+							<label class="item item-input" style="width: 75%; float:right; margin-left:5px; margin-right:5px;">
+								<i class="icon ion-search placeholder-icon"></i>
+								<input type="search" placeholder="Search" ng-enter="sortAction(getRooms)" style="border:dashed 1px orange; ;" ng-model="sortData1">
+							</label>
+						</div>
+						<div class="container" ng-repeat="item in items " >
+							<div class="flip-button" onclick="this.classList.toggle('hover');">
+								<div class="card cardView front" >
+									<div class="row">
+										<a  class="col">
+											<img  ng-click="cardroomimagesshow(item, $event)" ng-src={{item.imageURL}} height="50px" width="50px" />
+										</a>
+										<div class="col col-75 list">
+											<label >
+												<input disabled class="nameText" type="text" ng-model="item.rn" >
+												<!--input disabled style="border:dashed 1px orange; margin-bottom: 5px; width:100%;" type="text" placeholder="Room Name" ng-model="item.rn" required-->
+											</label>
+											<label  >
+												<textarea class="descriptionText" disabled rows="4" ng-model="item.descr"></textarea>
+												<!--textarea style="border:dashed 1px orange; overflow-y: auto; width:100%;" disabled rows="4" placeholder="Description" ng-model="item.descr"></textarea-->
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="card cardView back" >
+									<div class="row" style="margin-left:10px;">
+										<button class="button button-small button-positive" ng-disabled="item.sm < 2">{{PublishType[item.sm]}}</button>
+										<input type="checkbox" ng-click="roomCardFlipSupp($event)" ng-model="item.scm" disabled>Filtered by tags</input>
+										<label  class="toggle" >
+											<input style="margin-left:auto; margin-right:auto; float:right; width:50%;" type="checkbox" ng-click="roomCardFlipSupp($event)" ng-model="item.er" ng-change="roomenableuserchange(item)">
+											<div class="track">
+												<div class="handle"></div>
+											</div>
+											Enable room?
+										</label>
+									</div>
+									<textarea class="tagsText" disabled rows="4" ng-model="item.tags"></textarea>
+									<!--textarea style="width:90%; overflow-y: auto; margin-left:15px; margin-top:2px; border:dashed 1px orange;" disabled rows="4" placeholder="Tags" ng-model="item.tags"></textarea-->
+                                  
+								</div>
+							</div>
+						</div>
+						<ion-infinite-scroll ng-if="doMoreRefresh(items)"
+							on-infinite="doRefresh(1, items, getRooms)"
+							distance="1%">
+						</ion-infinite-scroll>
+					</ion-content>
+				</ion-slide>
+				
+				<ion-slide ng-controller="SubscriberCtrl">
+					<ion-header-bar class="bar-stable">
+						<button ng-click="showScreens()" class="button button-clear icon ion-navicon-round button-balanced"></button>
+						<h1 class="title">{{pageTitle}}</h1>
+						<a ng-click="showPaymentsDialog($event)" ng-class="paymentsCurrentState"></a>
+					</ion-header-bar>
+					<ion-content class="padding">
+						<ion-refresher ng-if="initComplete"
+							pulling-text="Pull to refresh..."
+							on-refresh="doRefresh(0, items, getSubList)">
+						</ion-refresher>
+						<div class="row" style="margin-left: auto;margin-right: auto; width: 70%;">
+							<select class="item item-input item-select" ng-model="sortOrder" ng-change="sortAction(getSubList)" ng-options="st2.name for st2 in sortOrders" style="margin-top:2px;margin-right:5px; "></select>
+							<select class="item item-input item-select" ng-model="sortFilter" ng-change="sortAction(getSubList)" ng-options="st1.name for st1 in sortFilters" style="margin-top:1px;margin-right:5px; "></select>
+							<select class="item item-input item-select" ng-model="sortOn" ng-change="sortAction(getSubList)" ng-options="st1.name for st1 in sortOns" style="margin-top:1px;margin-right:5px; "></select>
+						</div>
+						<label class="item item-input" style="margin-left: auto;margin-right: auto; width: 90%;">
+							<i class="icon ion-search placeholder-icon"></i>
+							<input type="search" placeholder="Search" ng-enter="sortAction(getSubList)" style="border:dashed 1px orange; ;" ng-model="sortData">
+						</label>
+						<div class="container" ng-repeat="item in items" >
+							<div class="flip-button" onclick="this.classList.toggle('hover');" ng-show="item.infoState != false">
+								<div class="card front" style="border-radius: 25px; border-style: outset; border-color: orange; border-width: 5px;">
+									<div class="item item-divider bar bar-header bar-assertive" style="border-radius: 25px; ">
+										<a class="button button-energized button-small button-clear icon ion-person" style="border-radius: 5px;" ng-click="roomuser(item, $event)">{{item.nn}}</a>
+										<a class="button button-energized button-clear button-small icon ion-videocamera" style="border-radius: 25px;" ng-click="roomsubscribe(item, $event, $index)"></a>
+									  
+									</div>
+									<div class="row">
+										<div  class="col">
+											<img  ng-click="cardroomimagesshow(item, $event)" ng-src={{item.imageURL}} height="50px" width="50px" />
+											<a ng-class="item.followr" style="border-radius: 25px;" ng-click="roomfollow(item, $event)"></a>
+										</div>
+										<div class="col col-75 list">
+											<label >
+												<input disabled style="border:dashed 1px orange; margin-bottom: 5px;" type="text" placeholder="Room Name" ng-model="item.rn" required>
+											</label>
+											<label  >
+												<textarea style="border:dashed 1px orange; overflow-y: auto;" disabled rows="4" placeholder="Description" ng-model="item.descr"></textarea>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="card back" style="border-radius: 25px; border-style: outset; border-color: orange; border-width: 5px;">
+									<div class="item item-divider bar bar-header bar-assertive" style="border-radius: 25px; ">
+										<a class="button button-energized button-small button-clear icon ion-person" ng-click="roomuser(item, $event)">{{item.nn}}</a>
+										<a class="button button-energized button-clear button-small icon ion-videocamera" style="border-radius: 25px; " ng-click="roomsubscribe(item, $event, $index)"></a>
+									</div>
+									<textarea style="width:90%; overflow-y: auto; margin-left:15px; margin-top:2px; border:dashed 1px orange;" disabled rows="4" placeholder="Tags" ng-model="item.tags"></textarea>
+								</div>
+							</div>
+							<div class="card" ng-show="item.infoState != true" style="border-radius: 25px; border-style: outset; border-color: orange; border-width: 5px;">
+								<div class="item item-divider bar bar-header bar-assertive" style="border-radius: 25px; z-index: 200;">
+
+									<div class="button-bar" ng-show="normalControl == 0">
+										<a class="button button-energized button-small button-clear" ng-click="roomuser(item.pubs[item.activeItemIdx], $event)">
+											<img ng-src="{{item.pubs[item.activeItemIdx].imageFile}}" height="25px" width="25px">
+											{{item.pubs[item.activeItemIdx].nn}}
+										</a>
+										<a ng-click="roomsubscribeend(item, $event)" class="button button-clear button-small icon ion-stop button-energized" ></a>
+										<a class="button button-energized button-clear button-small icon ion-videocamera" ng-click="roomsubscribemainview($index)"></a>
+										<a ng-click="roomAvailablePubs($event, $index)" class="button button-clear button-small icon ion-person-stalker button-energized" ></a>
+									</div>
+									<div class="button-bar" ng-show="normalControl == 1">
+										<a class="button button-energized button-small button-clear" ng-click="roomuser(newPub, $event)">
+											<img ng-src="{{newPub.imageFile}}" height="25px" width="25px">
+											New Publisher: {{newPub.nn}}
+										</a>
+										<a ng-click="newpubconnect($event, $index)" class="button button-clear button-small icon ion-person-stalker button-energized" ></a>
+										<a ng-click="newpubdismiss(true, $event)" class="button button-clear button-small icon ion-close-circled button-energized" ></a>
+									</div>
+									<div class="button-bar" ng-show="normalControl == 2">
+										<a class="button button-energized button-small button-clear" ng-click="roomuser(pubgone, $event)">
+											<img ng-src="{{pubgone.imageFile}}" height="25px" width="25px">
+											Publisher dropped: {{pubgone.nn}}
+										</a>
+										<a ng-click="pubdonedismiss(true)" class="button button-clear button-small icon ion-close-circled button-energized" >Dismiss</a>
+									</div>
+								</div>
+                              <!--video width="100%" height="75%" style="border-radius: 25px; border-style: inset; border-color: blue; border-width: 5px;">
+                                  <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
+                                  Your browser does not support HTML5 video.
+                              </video-->
+							  
+							  
+							  
+								<div ng-if="item.subscribing" ng-repeat="pub in item.pubs" style="width: 50%; height: 50%;">
+									<ot-layout props="{animate:true,bigFixedRatio:true}" otstype="3" otsindex="item.otsindex">
+										<ot-subscriber ng-if="pub.active"
+                                            stream="pub.stream"
+                                            props="facePublisherProps"
+                                            otstype="3" otsindex="item.otsindex"
+                                            ng-class="{OT_big: (stream.othLarge == undefined && stream.name == 'screen') || stream.othLarge}"
+                                        >
+										</ot-subscriber>
+									</ot-layout>
+								</div>
+
+							</div>
+						</div>
+						<ion-infinite-scroll ng-if="doMoreRefresh(items)"
+							on-infinite="doRefresh(1, items, getSubList)"
+							distance="1%">
+						</ion-infinite-scroll>
+					</ion-content>
+				</ion-slide>
+              <ion-slide ng-controller="ProfileCtrl" >
+                  <ion-header-bar class="bar bar-header bar-positive">
+                      <button ng-click="showScreens()" class="button button-clear icon ion-navicon-round button-balanced"></button>
+                      <h1 class="title">{{template.title}}</h1>
+					  <!--a ng-click="showPaymentsDialog($event)" ng-class="paymentsCurrentState"></a-->
+                      <button ng-click="showOptions()" class="button button-clear icon ion-navicon-round button-balanced"></button>
+                  </ion-header-bar>
+                  <div ng-include="template.url">
+                  </div>
+              </ion-slide>
+          </ion-slide-box>
+
+        </ion-view>
+  </body>
+</html>
